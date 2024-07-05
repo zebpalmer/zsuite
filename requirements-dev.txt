@@ -3,3 +3,4 @@ tox
 pytest
 setuptools
 build
+bump2version
