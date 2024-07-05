@@ -7,7 +7,7 @@ dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
-optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
+optional-dependencies = {test = { file = ["requirements-test.txt"] }}
 
 
 [build-system]
