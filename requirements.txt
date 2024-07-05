@@ -1,1 +1,4 @@
 tzdata
+cryptography
+python-dotenv
+PyYAML
