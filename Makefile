@@ -1,18 +1,21 @@
-.PHONY: help all style test release ruff-check-fix format check-branch check-type check-clean patch minor major
+.PHONY: help all style test release ruff-check-fix format check-branch check-type check-clean patch minor major clean
 
 help:
 	awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 ## General Targets
-all: style test  ## Format, lint and test
+all: clean style test  ## Format, lint and test
 
 ## Format and lint code
-style: format ruff-check-fix ## Format and lint code
+style: clean format ruff-check-fix ## Format and lint code
 
 ## Testing
 test: ## Run tests
 	cd tests && pytest
 
+## Clean
+clean: ## Clean up build files
+	rm -rf build dist *.egg-info .pytest_cache .mypy_cache .coverage .tox .ruff
 
 ## Code Formatting
 format: ## Format code using ruff
@@ -23,7 +26,7 @@ ruff-check-fix:  ## Lint code using ruff
 	ruff check --fix .
 
 ## Release Operations
-release: check-type check-branch pre-release $(TYPE) post-release  ## Perform a release
+release: clean check-type check-branch pre-release $(TYPE) post-release  ## Perform a release
 	@echo "Release complete"
 
 
