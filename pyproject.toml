@@ -11,7 +11,7 @@ optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
 
 
 [build-system]
-requires = ["setuptools", "ruff", "tox"]
+requires = ["setuptools", "ruff", "tox", "pytest"]
 build-backend = "setuptools.build_meta"
 
 
