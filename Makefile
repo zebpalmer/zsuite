@@ -1,4 +1,4 @@
-.PHONY: help all style test release ruff-check-fix format check-branch check-type check-clean patch minor major clean
+.PHONY: help all style test release ruff-check-fix format check-branch check-type check-clean patch minor major clean actions
 
 help:
 	awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -29,15 +29,14 @@ ruff-check-fix:  ## Lint code using ruff
 release: clean check-type check-branch pre-release $(TYPE) post-release  ## Perform a release
 	@echo "Release complete"
 
-
-
-
+## Act Test
+actions: ## Run GitHub Actions workflow locally with act
+	PYTHON_VERSION=3.12 OS=ubuntu-latest act -j build_and_test --env PYTHON_VERSION=3.10 --env OS=ubuntu-latest
 
 ######### Helpers (not meant to be called directly) #########
 # release checking
 pre-release: check-branch style check-clean test
 post-release: push
-
 
 # Check if the current Git branch is 'main'
 check-branch:
