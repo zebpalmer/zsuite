@@ -6,7 +6,7 @@ requires-python = ">=3.10"
 dynamic = ["dependencies"]
 
 [tool.setuptools]
-packages = ["zsuite"]
+#packages = ["zsuite"]
 #include-package-data = true
 ##zip-safe = false
 
