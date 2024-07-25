@@ -4,7 +4,7 @@ help:
 	awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 ## General Targets
-all: clean style test  ## Format, lint and test
+all: clean style actions ## Format, lint and test in isolated env
 
 ## Format and lint code
 style: clean format ruff-check-fix ## Format and lint code
@@ -31,7 +31,7 @@ release: clean check-type check-branch pre-release $(TYPE) post-release  ## Perf
 
 ## Act Test
 actions: ## Run GitHub Actions workflow locally with act
-	PYTHON_VERSION=3.12 OS=ubuntu-latest act -j build_and_test --env PYTHON_VERSION=3.10 --env OS=ubuntu-latest
+	act --job build_and_test --matrix python:3.12 --matrix os:ubuntu-latest
 
 ######### Helpers (not meant to be called directly) #########
 # release checking

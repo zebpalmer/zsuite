@@ -56,7 +56,7 @@ def test_load_config_encrypted_value_no_decryption_key():
 
 def test_load_env():
     test_file_path = Path(__file__).parent.absolute()
-    env_file_path = test_file_path / ".test_env"
+    env_file_path = test_file_path / "env_test.env"
 
     load_env(env_file_path, required=True)
     assert os.getenv("TEST_VARIABLE") == "test_value"
