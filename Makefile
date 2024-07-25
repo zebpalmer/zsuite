@@ -31,7 +31,7 @@ release: clean check-type check-branch pre-release $(TYPE) post-release  ## Perf
 
 ## Act Test
 actions: ## Run GitHub Actions workflow locally with act
-	act --job build_and_test --matrix python:3.12 --matrix os:ubuntu-latest
+	act --job build_and_test --matrix python-version:3.12 --matrix os:ubuntu-latest
 
 ######### Helpers (not meant to be called directly) #########
 # release checking
