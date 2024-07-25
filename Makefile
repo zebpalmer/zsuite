@@ -35,7 +35,7 @@ actions: ## Run GitHub Actions workflow locally with act
 
 ######### Helpers (not meant to be called directly) #########
 # release checking
-pre-release: check-branch style check-clean test
+pre-release: check-branch style check-clean test actions
 post-release: push
 
 # Check if the current Git branch is 'main'
