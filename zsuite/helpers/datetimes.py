@@ -51,3 +51,20 @@ def normalize_timestamp(raw, tz="UTC") -> datetime:
         output_datetime = output_datetime.astimezone(ZoneInfo(tz))
 
     return output_datetime
+
+
+
+
+def epoch_to_utc(epoch: str | float | int) -> datetime:
+    """
+    Convert epoch timestamp to UTC-aware datetime object.
+
+    Args:
+        epoch: Epoch timestamp as string, float or int (seconds since Unix epoch)
+
+    Returns:
+        datetime: UTC-aware datetime object
+    """
+    if isinstance(epoch, str):
+        epoch = float(epoch)
+    return datetime.fromtimestamp(epoch, tz=timezone.utc)
