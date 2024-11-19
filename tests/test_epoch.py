@@ -1,9 +1,8 @@
-import pytest
 from datetime import datetime, timezone
-from zsuite.helpers.datetimes import epoch_to_utc
 
 import pytest
-from datetime import datetime, timezone
+
+from zsuite.helpers.datetimes import epoch_to_utc
 
 
 def test_epoch_to_utc():

@@ -53,8 +53,6 @@ def normalize_timestamp(raw, tz="UTC") -> datetime:
     return output_datetime
 
 
-
-
 def epoch_to_utc(epoch: str | float | int) -> datetime:
     """
     Convert epoch timestamp to UTC-aware datetime object.
