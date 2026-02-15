@@ -48,7 +48,7 @@ def test_load_config_encrypted_value_no_decryption_key():
         patch("builtins.open", mock_open(read_data=config_data)),
         pytest.raises(
             MissingVaultKey,
-            match="Encrypted value found but no decryption key provided.",
+            match=r"Encrypted value found but no decryption key provided\.",
         ),
     ):
         load_config()

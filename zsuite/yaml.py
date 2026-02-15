@@ -8,7 +8,7 @@ from zsuite.helpers import want_bytes
 from .exceptions import MissingVaultKey
 
 
-def secret_constructor(decryption_key: str | bytes = None):
+def secret_constructor(decryption_key: str | bytes | None = None):
     """Creates and returns a custom YAML constructor function for decrypting values tagged with "!secret".
 
     This function returns a constructor that can be used with a YAML loader to decrypt scalar values tagged with

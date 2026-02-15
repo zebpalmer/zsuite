@@ -5,7 +5,7 @@ from .exceptions import CircuitBreakerTripped
 
 
 class CircuitBreaker:
-    def __init__(self, max_events: int = None, time_window: int = None, custom_exception=None):
+    def __init__(self, max_events: int | None = None, time_window: int | None = None, custom_exception=None):
         if max_events is None:
             raise ValueError("max_events must be set")
         if time_window is None:
