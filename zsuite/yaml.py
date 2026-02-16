@@ -4,7 +4,6 @@ import yaml
 from cryptography.fernet import Fernet
 
 from .byte_strings import want_bytes
-
 from .exceptions import MissingVaultKey
 
 

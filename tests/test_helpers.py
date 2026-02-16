@@ -4,8 +4,8 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from zsuite.exceptions import UndeterminedBool
 from zsuite import fuzzy_bool, now_utc, parse_timestamp
+from zsuite.exceptions import UndeterminedBool
 
 
 def test_fuzzy_bool():

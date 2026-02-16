@@ -16,6 +16,7 @@ class SVCObj:
                 config = self.svc.config
                 db_name = config.get("database")
 
+
         svc = SVC(config={"database": "mydb"})
         service = MyService()
         service.do_work()  # Can access svc.config

@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 
-from zsuite.crypto import decrypt_fernet_str, encrypt_fernet_str
 from zsuite import want_bytes
+from zsuite.crypto import decrypt_fernet_str, encrypt_fernet_str
 
 
 def test_round_trip_str():
