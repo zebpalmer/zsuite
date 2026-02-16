@@ -1,7 +1,7 @@
-import os
 import tempfile
+from pathlib import Path
 
-from zsuite.file_operations import debug_file_path
+from zsuite.file_utils import debug_file_path
 
 
 def test_debug_file_path(monkeypatch):
@@ -20,4 +20,4 @@ def test_debug_file_path(monkeypatch):
         assert result["parent_dir_writable"] is True
         assert result["parent_dir_readable"] is True
         assert result["is_absolute"] is True  # Temp files usually have absolute paths
-        assert result["absolute_path"] == os.path.abspath(temp_file_name)
+        assert result["absolute_path"] == str(Path(temp_file_name).resolve())

@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from zsuite.helpers.datetimes import epoch_to_utc
+from zsuite.timestamps import epoch_to_utc
 
 
 def test_epoch_to_utc():

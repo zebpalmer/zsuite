@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet
 
-from zsuite.helpers import want_bytes
+from .byte_strings import want_bytes
 
 
 def decrypt_fernet_str(key: str | bytes, value: str | bytes) -> str:

@@ -3,7 +3,7 @@ import os
 import yaml
 from cryptography.fernet import Fernet
 
-from zsuite.helpers import want_bytes
+from .byte_strings import want_bytes
 
 from .exceptions import MissingVaultKey
 

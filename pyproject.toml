@@ -8,6 +8,7 @@ license = {text = "MIT"}
 dependencies = [
     "tzdata",
     "cryptography",
+    "python-dateutil",
     "python-dotenv",
     "PyYAML",
 ]

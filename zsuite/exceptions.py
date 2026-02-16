@@ -16,3 +16,11 @@ class MissingVaultKey(ZSuiteException):
 
 class CircuitBreakerTripped(ZSuiteException):
     """Raised when a circuit breaker trips."""
+
+
+class StaleFile(ZSuiteException):
+    """Raised when a file is older than the expected freshness window."""
+
+
+class FileNotFound(ZSuiteException):
+    """Raised when a file cannot be found in any of the specified locations."""

@@ -1,4 +1,4 @@
-from zsuite.exceptions import UndeterminedBool
+from .exceptions import UndeterminedBool
 
 FUZZY_TRUE = {"true", "t", "1", "yes", "y", "active", "enabled"}
 FUZZY_FALSE = {"false", "f", "0", "no", "n", "inactive", "disabled"}

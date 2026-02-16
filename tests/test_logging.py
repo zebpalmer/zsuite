@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from zsuite import setup_logging
-from zsuite.logging import DEFAULT_SUPPRESS_PACKAGES
+from zsuite.logs import DEFAULT_SUPPRESS_PACKAGES
 
 
 def test_setup_logging_default(monkeypatch):
