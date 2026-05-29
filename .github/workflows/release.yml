@@ -10,6 +10,9 @@ concurrency:
 jobs:
   build_and_test:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      attestations: read
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12']
@@ -22,17 +25,20 @@ jobs:
     - name: Install UV
       uses: astral-sh/setup-uv@v5
 
+    - name: Install stratt
+      uses: stratt-sh/setup-stratt@v0
+
     - name: Set up Python ${{ matrix.python-version }}
       run: uv python install ${{ matrix.python-version }}
 
     - name: Install dependencies
-      run: uv sync --all-extras --all-groups
+      run: stratt sync
 
     - name: Lint
-      run: make lint-check
+      run: stratt lint --check
 
     - name: Test
-      run: make test
+      run: stratt test
 
   publish:
     runs-on: ubuntu-latest
@@ -42,6 +48,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      attestations: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -49,11 +56,14 @@ jobs:
     - name: Install UV
       uses: astral-sh/setup-uv@v5
 
+    - name: Install stratt
+      uses: stratt-sh/setup-stratt@v0
+
     - name: Set up Python
       run: uv python install 3.12
 
     - name: Build package
-      run: uv build
+      run: stratt build
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
