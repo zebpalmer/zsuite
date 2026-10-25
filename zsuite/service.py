@@ -39,11 +39,18 @@ class SVC:
         config = SVCObj().svc.config
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, config=None, unittesting=False, **kwargs):
         """Initialize the service container and register it globally.
 
         Sets this instance as the global service object accessible via SVCObj.svc.
         All SVCObj instances will reference this shared service container.
+
+        :param config: Configuration dict, consulted by config_var() after environment variables.
+        :param unittesting: Flag to indicate unit testing mode.
+        :param kwargs: Additional keyword arguments, set as attributes on the instance.
         """
         SVCObj.svc = self
-        self._unittesting = kwargs.get("unittesting")
+        self.config = config
+        self._unittesting = unittesting
+        for key, value in kwargs.items():
+            setattr(self, key, value)

@@ -4,7 +4,8 @@ import os
 from dotenv import load_dotenv
 
 from .crypto import decrypt_fernet_str
-from .exceptions import EncryptedValueError, MissingVaultKey
+from .exceptions import ConfigurationError, EncryptedValueError, MissingVaultKey
+from .service import SVCObj
 from .yaml import load_and_decrypt_yaml
 
 # Sentinel value to represent an unset default
@@ -13,23 +14,25 @@ UNSET_DEFAULT = object()
 
 def config_var(name: str, default: any = UNSET_DEFAULT) -> any:
     """
-    Get a config variable from the service object or environment, prefer environment
+    Get a config variable from the environment, then the service object's config (case-insensitive),
+    then the default.
 
+    :raises ConfigurationError: If the variable is not set and no default is provided.
     """
     value = default
 
     if name in os.environ:
         value = os.environ[name]
-    # else:
-    #     config = getattr(SVCObj().svc, "config", None)
-    #     if config is not None:
-    #         if name in config:
-    #             value = config[name]
-    #         elif name.lower() in config:
-    #             value = config[name.lower()]
+    else:
+        config = getattr(SVCObj().svc, "config", None)
+        if config is not None:
+            if name in config:
+                value = config[name]
+            elif name.lower() in config:
+                value = config[name.lower()]
 
     if value is UNSET_DEFAULT:
-        raise ValueError(f"Config variable {name} not set and no default provided")
+        raise ConfigurationError(f"Config variable {name} not set and no default provided")
 
     if isinstance(value, bytes):
         value = _attempt_decode(name, value)
@@ -38,6 +41,22 @@ def config_var(name: str, default: any = UNSET_DEFAULT) -> any:
         value = _normalize_config_string(name, value)
 
     return value
+
+
+def config_bool(name: str, default: bool | None = UNSET_DEFAULT) -> bool | None:
+    """Get a boolean config variable, rejecting anything that isn't clearly boolean.
+
+    Resolves the variable like config_var(), but requires the result to be a boolean. Only 'true' and 'false'
+    (case-insensitive) are accepted; '0', '1', 'yes', 'no' and the like raise ConfigurationError, so a
+    misconfigured service fails at startup instead of silently enabling or disabling a feature.
+
+    :param default: Default if the variable is unset. May be None for tri-state settings.
+    :raises ConfigurationError: If the variable is missing with no default, or is not a boolean.
+    """
+    value = config_var(name, default)
+    if value is None or isinstance(value, bool):
+        return value
+    raise ConfigurationError(f"Config variable {name} must be a boolean ('true' or 'false'), got: {value!r}")
 
 
 def _normalize_config_string(name, value):
@@ -97,7 +116,7 @@ def load_config(decryption_key=None, config_file=None) -> dict:
     if config_file is None:
         config_file = os.getenv("CONFIG_FILE")
     if config_file is None:
-        raise Exception("CONFIG_FILE not set")
+        raise ConfigurationError("CONFIG_FILE not set")
 
     return load_and_decrypt_yaml(decryption_key, config_file)
 

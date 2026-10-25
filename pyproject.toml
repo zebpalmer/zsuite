@@ -13,10 +13,28 @@ dependencies = [
     "PyYAML",
 ]
 
+[project.optional-dependencies]
+mongo = [
+    "pymongo>=4.15,<5.0",
+]
+webservice = [
+    "flask[async]>=3.1,<4.0",  # [async] pulls in asgiref, required for async view support
+    "werkzeug>=3.1,<4.0",
+    "requests>=2.32,<3.0",
+    "cachetools>=5.0,<8.0",
+    "pyjwt>=2.13.0,<3.0",
+]
+all = [
+    "zsuite[mongo,webservice]",
+]
+
 [dependency-groups]
 dev = [
     "pytest",
+    "pytest-mock",
+    "mongomock",
     "ruff>=0.14.0",
+    "zsuite[all]",
 ]
 
 # ---- Build System ----
@@ -66,6 +84,7 @@ unfixable = [
 "tests/*" = [
     "E501", "S101", "D", "ANN", "ARG001", "ARG002",
     "SLF001", "T201",
+    "RUF059",  # tuple-returning test helpers are unpacked even when one value is unused
 ]
 "__init__.py" = ["F401"]
 

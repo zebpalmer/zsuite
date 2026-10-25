@@ -3,8 +3,9 @@ import os
 import pytest
 from cryptography.fernet import Fernet
 
+from zsuite import SVC
 from zsuite.config import config_var
-from zsuite.exceptions import EncryptedValueError, MissingVaultKey
+from zsuite.exceptions import ConfigurationError, EncryptedValueError, MissingVaultKey
 
 
 # Test case for retrieving a config variable from os.environ
@@ -64,3 +65,26 @@ def test_config_var_secret(monkeypatch):
     monkeypatch.setenv("VAULT_KEY", key.decode())
     result = config_var("SECRET_CFG_VAR")
     assert result == test_pw
+
+
+def test_config_var_from_svc_config(monkeypatch):
+    monkeypatch.delenv("MY_SVC_VAR", raising=False)
+    SVC(config={"MY_SVC_VAR": "from-svc"})
+    assert config_var("MY_SVC_VAR") == "from-svc"
+
+
+def test_config_var_from_svc_config_lowercase(monkeypatch):
+    monkeypatch.delenv("MY_SVC_VAR", raising=False)
+    SVC(config={"my_svc_var": "lowercase"})
+    assert config_var("MY_SVC_VAR") == "lowercase"
+
+
+def test_config_var_env_beats_svc_config(monkeypatch):
+    monkeypatch.setenv("MY_SVC_VAR", "from-env")
+    SVC(config={"MY_SVC_VAR": "from-svc"})
+    assert config_var("MY_SVC_VAR") == "from-env"
+
+
+def test_config_var_unset_raises_configuration_error():
+    with pytest.raises(ConfigurationError):
+        config_var("NON_EXISTING_VAR_CFG_ERR")
